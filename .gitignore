@@ -1,3 +1,2 @@
 .DS_Store
-.wrangler/cache/pages.json
-.wrangler/cache/wrangler-account.json
+.wrangler/*
