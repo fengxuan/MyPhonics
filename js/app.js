@@ -105,7 +105,7 @@ function stopAudio() {
   if (finish) finish();
 }
 
-const AUDIO_VERSION = "6";
+const AUDIO_VERSION = "7";
 
 function playFile(path) {
   stopAudio();
