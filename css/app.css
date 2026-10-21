@@ -1,0 +1,388 @@
+:root {
+  --paper: #f4efe4;
+  --paper-deep: #e7dcc8;
+  --ink: #1d1914;
+  --muted: #6f655a;
+  --card: #fffaf3;
+  --line: rgba(40, 30, 18, 0.12);
+  --coral: #e15b3a;
+  --teal: #0f766c;
+  --violet: #5344a6;
+  --gold: #b67912;
+  --blend: #1d6a9a;
+  --green: #1d7a45;
+  --shadow: 0 16px 40px rgba(70, 46, 18, 0.08);
+  --radius: 22px;
+  font-family: "Noto Sans SC", "PingFang SC", "Nunito", "Avenir Next", sans-serif;
+  color: var(--ink);
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; min-height: 100%; }
+
+body {
+  background:
+    radial-gradient(circle at 12% -10%, #ffe7c2 0%, transparent 42%),
+    radial-gradient(circle at 100% 0%, #d9f3ee 0%, transparent 36%),
+    var(--paper);
+  color: var(--ink);
+}
+
+button, input { font: inherit; color: inherit; }
+
+button { cursor: pointer; }
+
+button:focus-visible {
+  outline: 3px solid #1d6a9a;
+  outline-offset: 3px;
+}
+
+#app { min-height: 100vh; }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 22px;
+  background: rgba(244, 239, 228, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand, .text-btn, .back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.brand strong { display: block; font-size: 1.15rem; letter-spacing: 0.02em; }
+.brand small, .muted, .status { color: var(--muted); }
+
+.logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: #fff8ea;
+  font-family: Nunito, "Avenir Next", sans-serif;
+  font-weight: 900;
+  font-size: 1.15rem;
+}
+
+.topbar nav { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.topbar nav button, .shelf-btn, .choice, .mini, .demo-tile, .path-card, .rule-card, .speed-btn {
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  border-radius: 999px;
+}
+
+.topbar nav button { padding: 8px 14px; font-weight: 700; }
+.topbar nav button.on { background: var(--ink); color: #fffaf3; border-color: var(--ink); }
+
+main { max-width: 1080px; margin: 0 auto; padding: 28px 20px 64px; }
+
+.hero { display: grid; grid-template-columns: 1.3fr 0.9fr; gap: 28px; align-items: center; }
+.kicker { letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.78rem; color: var(--coral); font-weight: 800; margin: 0 0 8px; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.15; margin: 0 0 12px; font-weight: 900; }
+.lead { font-size: 1.12rem; line-height: 1.7; margin: 0 0 18px; }
+.hero-actions, .pager, .controls, .listens, .action-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.btn {
+  border: 0;
+  border-radius: 16px;
+  padding: 13px 18px;
+  font-weight: 800;
+  background: var(--ink);
+  color: #fffaf3;
+}
+.btn.light { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+.btn-blend { background: var(--green); color: white; border: 0; border-radius: 16px; padding: 13px 18px; font-weight: 800; }
+.btn-sound { background: var(--teal); color: white; border: 0; border-radius: 16px; padding: 13px 18px; font-weight: 800; }
+.btn:disabled { opacity: 0.4; cursor: default; }
+
+.demo {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+}
+.demo p { margin: 0 0 12px; font-weight: 800; }
+.demo-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.demo-tile {
+  border-radius: 18px;
+  min-height: 84px;
+  font-family: Nunito, "Avenir Next", sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.demo-tile small { font-family: "Noto Sans SC", sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--muted); }
+
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 28px 0; }
+.step, .rule-card, .path-card, .stage, .lesson, .panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.step { padding: 16px 18px; }
+.step b { display: block; margin-bottom: 6px; }
+.step span { color: var(--muted); line-height: 1.6; }
+
+.path { display: flex; flex-direction: column; gap: 12px; }
+.path-card {
+  width: 100%;
+  text-align: left;
+  border-radius: 20px;
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+}
+.path-card:hover { transform: translateY(-1px); }
+.num {
+  width: 48px; height: 48px; border-radius: 16px;
+  display: grid; place-items: center;
+  background: var(--paper-deep); font-weight: 900;
+}
+.path-card strong { display: block; font-size: 1.08rem; }
+.path-card small { display: block; color: var(--muted); line-height: 1.45; }
+.star small { color: var(--muted); font-size: 0.78rem; }
+.star { font-weight: 900; color: var(--gold); }
+.star.off { color: #c8beae; }
+
+.page-head { margin-bottom: 18px; }
+.back { color: var(--muted); font-weight: 700; margin-bottom: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+.mini {
+  border-radius: 16px;
+  min-width: 72px;
+  padding: 8px 10px;
+  font-family: Nunito, "Avenir Next", sans-serif;
+  font-weight: 900;
+  font-size: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mini small { font-family: "Noto Sans SC", sans-serif; font-size: 0.75rem; color: var(--muted); font-weight: 700; }
+
+.action-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 8px 0 12px; }
+.action-grid button {
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 18px 12px;
+  font-weight: 800;
+  box-shadow: var(--shadow);
+}
+.action-grid button span { display: block; color: var(--muted); font-weight: 600; font-size: 0.86rem; margin-top: 4px; }
+
+.lesson { padding: 28px 22px 22px; text-align: center; }
+.giant {
+  width: min(100%, 280px);
+  min-height: 150px;
+  margin: 8px auto 8px;
+  border-radius: 28px;
+  display: grid;
+  place-items: center;
+  font-family: Nunito, "Avenir Next", sans-serif;
+  font-weight: 900;
+  font-size: 5rem;
+  letter-spacing: -0.04em;
+  border: 4px solid currentColor;
+  background: white;
+}
+.giant.wide { font-size: 3.4rem; }
+.ipa-lg { font-size: 1.6rem; margin: 8px 0; font-weight: 800; }
+.hint { max-width: 640px; margin: 0 auto 16px; line-height: 1.7; color: #3d342b; }
+.keyword {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--paper);
+  margin-bottom: 16px;
+  font-weight: 800;
+}
+.dots { display: flex; justify-content: center; gap: 6px; margin: 8px 0 16px; }
+.dots i { width: 8px; height: 8px; border-radius: 99px; background: #ddd3c4; display: block; }
+.dots i.on { background: var(--ink); width: 22px; }
+
+.kind-vowel { color: var(--coral); }
+.kind-consonant { color: var(--teal); }
+.kind-team { color: var(--violet); }
+.kind-magic { color: var(--gold); }
+.kind-blend { color: var(--blend); }
+
+.shelf {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 12px;
+  margin-bottom: 8px;
+}
+.shelf-btn { padding: 8px 14px; font-weight: 800; white-space: nowrap; border-radius: 999px; }
+.shelf-btn.active { background: var(--ink); color: #fffaf3; border-color: var(--ink); }
+
+.stage { padding: 28px 18px 22px; text-align: center; }
+.track {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 18px;
+  min-height: 150px;
+  transition: gap 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.slot { display: flex; flex-direction: column; align-items: center; }
+.card {
+  min-width: 92px;
+  height: 100px;
+  padding: 0 12px;
+  border-radius: 22px;
+  border: 4px solid currentColor;
+  background: white;
+  font-family: Nunito, "Avenir Next", sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  box-shadow: 0 10px 0 rgba(40, 30, 18, 0.05);
+}
+.card.wide { font-size: 2.1rem; }
+.card:hover { transform: translateY(-3px); }
+.card.active {
+  transform: translateY(-8px) scale(1.08);
+  background: #fff;
+  box-shadow: 0 14px 0 rgba(40, 30, 18, 0.1);
+}
+.ipa { margin-top: 8px; color: var(--muted); font-weight: 800; background: var(--paper); border-radius: 999px; padding: 2px 8px; }
+
+.stage.merged .track { gap: 0; }
+.stage.merged .card {
+  border-radius: 0;
+  color: white;
+  background: var(--green);
+  border-color: #166538;
+  box-shadow: none;
+}
+.stage.merged .slot:first-child .card { border-top-left-radius: 22px; border-bottom-left-radius: 22px; }
+.stage.merged .slot:last-child .card { border-top-right-radius: 22px; border-bottom-right-radius: 22px; }
+.stage.merged .ipa { opacity: 0; }
+
+.result {
+  min-height: 74px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.result.show { opacity: 1; transform: none; }
+.result b { display: block; font-size: 2rem; color: var(--green); letter-spacing: 0.04em; }
+.result small { color: var(--muted); font-weight: 700; }
+.res-emoji { font-size: 3rem; animation: bob 0.7s ease-in-out infinite alternate; }
+.formula { min-height: 28px; color: var(--muted); font-weight: 800; opacity: 0; }
+.formula.show { opacity: 1; }
+.controls { justify-content: center; margin-top: 8px; }
+
+@keyframes bob { from { transform: translateY(0); } to { transform: translateY(-6px); } }
+
+.quiz-card, .reflex-card, .rule-card, .panel { padding: 22px; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.choice {
+  border-radius: 18px;
+  min-height: 84px;
+  padding: 12px;
+  font-weight: 800;
+  font-size: 1.35rem;
+}
+.choice small { display: block; color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+.choice.good { background: #e7f6ec; border-color: var(--green); }
+.choice.bad { background: #fde8e3; border-color: var(--coral); }
+.feedback { margin-top: 14px; font-weight: 800; }
+.progress-label { color: var(--muted); font-weight: 700; }
+
+.reflex-face {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  font-family: Nunito, "Avenir Next", sans-serif;
+  font-weight: 900;
+  font-size: 7rem;
+  letter-spacing: -0.05em;
+  background: white;
+  border-radius: 28px;
+  border: 4px solid var(--ink);
+  margin: 12px 0;
+}
+.reflex-face small {
+  display: block;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+.speed-row { display: flex; gap: 8px; margin: 12px 0; }
+.speed-btn { padding: 8px 12px; font-weight: 800; }
+.speed-btn.on { background: var(--ink); color: white; }
+
+.rule-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.rule-card { text-align: left; padding: 18px; }
+.rule-card b { display: block; margin-bottom: 6px; font-size: 1.08rem; }
+.rule-card span { color: var(--muted); line-height: 1.55; }
+
+.pairs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 12px 0; }
+.pair { display: flex; gap: 6px; align-items: center; }
+.pair i { color: var(--muted); font-style: normal; font-weight: 900; }
+
+.footer {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px 28px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+.footer button { background: none; border: 0; color: var(--muted); text-decoration: underline; padding: 0; }
+
+@media (max-width: 800px) {
+  .hero, .steps, .action-grid, .rule-list, .choices { grid-template-columns: 1fr 1fr; }
+  .hero { grid-template-columns: 1fr; }
+  .topbar { flex-direction: column; align-items: stretch; }
+  .reflex-face { font-size: 5rem; min-height: 170px; }
+  .card { min-width: 64px; height: 78px; font-size: 2.1rem; padding: 0 8px; }
+  .card.wide { font-size: 1.45rem; }
+  .track { gap: 6px; }
+}
+
+@media (max-width: 560px) {
+  .steps, .action-grid, .rule-list { grid-template-columns: 1fr; }
+  .demo-row { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .res-emoji { animation: none; }
+  .track, .result, .card { transition: none; }
+}

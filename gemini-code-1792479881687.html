@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纯净自然拼读工坊 - 高保真发音版</title>
+    <style>
+        :root {
+            --bg: #090d16;
+            --blue: #38bdf8;
+            --yellow: #facc15;
+            --green: #4ade80;
+            --card-border: #475569;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, var(--bg) 100%);
+            font-family: 'Comic Sans MS', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin: 0 0 8px 0;
+            color: var(--yellow);
+            text-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
+        }
+
+        .subtitle {
+            margin: 0;
+            font-size: 1.05rem;
+            color: #94a3b8;
+        }
+
+        /* 顶部高品质发音引擎状态条 */
+        .voice-tag {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #64748b;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 4px 12px;
+            border-radius: 999px;
+            border: 1px solid #334155;
+            display: inline-block;
+        }
+        .voice-tag span {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        /* 单词切换栏 */
+        .shelf {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0 25px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .shelf-btn {
+            background: #1e293b;
+            border: 2px solid #334155;
+            color: #cbd5e1;
+            padding: 8px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .shelf-btn.active, .shelf-btn:hover {
+            background: var(--blue);
+            color: #0b1120;
+            border-color: #7dd3fc;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+            transform: translateY(-2px);
+        }
+
+        /* 主拼读舞台 */
+        .stage {
+            background: rgba(30, 41, 59, 0.7);
+            border: 2px solid #334155;
+            border-radius: 28px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 680px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* 字母卡片轨道 */
+        .track {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin: 20px 0 35px 0;
+            position: relative;
+            min-height: 120px;
+            transition: gap 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .slot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .card {
+            width: 95px;
+            height: 95px;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 4px solid var(--blue);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card:hover {
+            border-color: var(--yellow);
+            transform: translateY(-4px);
+        }
+
+        .card.active {
+            transform: scale(1.15) translateY(-8px);
+            border-color: var(--yellow);
+            background: #0284c7;
+            box-shadow: 0 0 30px var(--yellow);
+        }
+
+        .ipa-label {
+            margin-top: 10px;
+            font-size: 1.05rem;
+            color: #94a3b8;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 3px 12px;
+            border-radius: 999px;
+            border: 1px solid #475569;
+            transition: all 0.3s;
+        }
+
+        /* 融合吸附状态 */
+        .stage.merged .track {
+            gap: 0px;
+        }
+
+        .stage.merged .card {
+            border-color: var(--green);
+            background: #15803d;
+            box-shadow: 0 0 25px rgba(74, 222, 128, 0.4);
+            border-radius: 0;
+        }
+        .stage.merged .slot:first-child .card {
+            border-top-left-radius: 22px;
+            border-bottom-left-radius: 22px;
+        }
+        .stage.merged .slot:last-child .card {
+            border-top-right-radius: 22px;
+            border-bottom-right-radius: 22px;
+        }
+        .stage.merged .ipa-label {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        /* 最终实物揭晓 */
+        .result-panel {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            opacity: 0;
+            transform: scale(0.6);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+
+        .result-panel.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .res-emoji {
+            font-size: 4.2rem;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .res-word {
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: var(--green);
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.6);
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-8px); }
+        }
+
+        /* 控制按钮 */
+        .controls {
+            display: flex;
+            gap: 18px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            font-size: 1.15rem;
+            font-weight: bold;
+            padding: 13px 26px;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-individual {
+            background: var(--blue);
+            color: #0b1120;
+        }
+        .btn-individual:hover {
+            background: #7dd3fc;
+            transform: translateY(-2px);
+        }
+
+        .btn-blend {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-blend:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 12px 25px rgba(16, 185, 129, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🧩 自然拼读·高保真发音工坊</h1>
+        <p class="subtitle">先认独立纯净本音 ➔ 聚拢融为一体，读出纯正完整单词！</p>
+        <div class="voice-tag" id="voiceStatus">音质模式：<span>自动加载中...</span></div>
+    </header>
+
+    <div class="shelf" id="shelf"></div>
+
+    <div class="stage" id="stage">
+        <div class="track" id="track"></div>
+
+        <div class="result-panel" id="resultPanel">
+            <span class="res-emoji" id="resEmoji">🐱</span>
+            <span class="res-word" id="resWord">CAT</span>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-individual" onclick="playLetterByLetter()">
+                <span>👉</span> 1. 拆解读音素 (Sound Out)
+            </button>
+            <button class="btn btn-blend" onclick="mergeAndReadWord()">
+                <span>⚡</span> 2. 合并！直接读单词 (Read Word)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 词库配置：每个字母本音不再使用粗糙辅音文本，而是采用国际拼读标准短音
+        const PHONICS_WORDS = [
+            {
+                word: "CAT",
+                emoji: "🐱",
+                meaning: "猫",
+                letters: [
+                    { char: "c", ipa: "/k/", speak: "k" },
+                    { char: "a", ipa: "/æ/", speak: "at", slice: true }, // 取干净饱满的短元音
+                    { char: "t", ipa: "/t/", speak: "t" }
+                ]
+            },
+            {
+                word: "DOG",
+                emoji: "🐶",
+                meaning: "小狗",
+                letters: [
+                    { char: "d", ipa: "/d/", speak: "duh" },
+                    { char: "o", ipa: "/ɒ/", speak: "ox", slice: true },
+                    { char: "g", ipa: "/ɡ/", speak: "guh" }
+                ]
+            },
+            {
+                word: "SUN",
+                emoji: "☀️",
+                meaning: "太阳",
+                letters: [
+                    { char: "s", ipa: "/s/", speak: "s" },
+                    { char: "u", ipa: "/ʌ/", speak: "up", slice: true },
+                    { char: "n", ipa: "/n/", speak: "nn" }
+                ]
+            },
+            {
+                word: "BUS",
+                emoji: "🚌",
+                meaning: "巴士",
+                letters: [
+                    { char: "b", ipa: "/b/", speak: "buh" },
+                    { char: "u", ipa: "/ʌ/", speak: "up", slice: true },
+                    { char: "s", ipa: "/s/", speak: "s" }
+                ]
+            },
+            {
+                word: "BED",
+                emoji: "🛏️",
+                meaning: "床",
+                letters: [
+                    { char: "b", ipa: "/b/", speak: "buh" },
+                    { char: "e", ipa: "/e/", speak: "ed", slice: true },
+                    { char: "d", ipa: "/d/", speak: "duh" }
+                ]
+            }
+        ];
+
+        let currentIndex = 0;
+        let isPlaying = false;
+        let bestVoice = null;
+
+        // 🌟 核心优化：智能筛选最清晰、自然的真人发音库，过滤沙哑/过老音色
+        function initBestVoice() {
+            if (!window.speechSynthesis) return;
+            const voices = window.speechSynthesis.getVoices();
+            if (!voices || voices.length === 0) return;
+
+            // 优先匹配高质量自然发音库（Natural, Google, Samantha, Premium, Jenny 等）
+            bestVoice = voices.find(v => 
+                v.lang.startsWith('en') && 
+                (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Jenny') || v.name.includes('Ava'))
+            ) || voices.find(v => v.lang.startsWith('en-US')) || voices.find(v => v.lang.startsWith('en'));
+
+            const status = document.getElementById('voiceStatus');
+            if (bestVoice) {
+                status.innerHTML = `已自动匹配高保真音色：<span>${bestVoice.name}</span>`;
+            } else {
+                status.innerHTML = `音质模式：<span>系统标准清晰度</span>`;
+            }
+        }
+
+        if (window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = initBestVoice;
+            initBestVoice();
+        }
+
+        // 纯净发音单音（音调稳定在 1.0，杜绝提调引起的破音与沙哑）
+        function speakPhonicsSound(item) {
+            return new Promise((resolve) => {
+                if (!window.speechSynthesis) return resolve();
+                window.speechSynthesis.cancel();
+
+                // 对于短元音（如 at 中的 a），发音短促饱满
+                const utter = new SpeechSynthesisUtterance(item.speak);
+                if (bestVoice) utter.voice = bestVoice;
+                utter.lang = 'en-US';
+                utter.rate = 1.0; 
+                utter.pitch = 1.0; // 稳定标准音高，消除尖锐和沙哑摩擦
+
+                utter.onend = () => resolve();
+                utter.onerror = () => resolve();
+                window.speechSynthesis.speak(utter);
+            });
+        }
+
+        // 最终合并朗读：直接调用标准英文单词，完整、圆润
+        function speakWord(word) {
+            return new Promise((resolve) => {
+                if (!window.speechSynthesis) return resolve();
+                window.speechSynthesis.cancel();
+
+                const utter = new SpeechSynthesisUtterance(word.toLowerCase());
+                if (bestVoice) utter.voice = bestVoice;
+                utter.lang = 'en-US';
+                utter.rate = 0.9; // 略微放慢，让孩子听得最清楚
+                utter.pitch = 1.0;
+
+                utter.onend = () => resolve();
+                utter.onerror = () => resolve();
+                window.speechSynthesis.speak(utter);
+            });
+        }
+
+        function renderShelf() {
+            const shelf = document.getElementById('shelf');
+            shelf.innerHTML = '';
+            PHONICS_WORDS.forEach((item, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `shelf-btn ${idx === currentIndex ? 'active' : ''}`;
+                btn.innerText = `${item.emoji} ${item.word}`;
+                btn.onclick = () => selectWord(idx);
+                shelf.appendChild(btn);
+            });
+        }
+
+        function renderStage() {
+            const track = document.getElementById('track');
+            const resPanel = document.getElementById('resultPanel');
+            const stage = document.getElementById('stage');
+            
+            stage.classList.remove('merged');
+            resPanel.classList.remove('show');
+            track.innerHTML = '';
+
+            const data = PHONICS_WORDS[currentIndex];
+
+            data.letters.forEach((l, i) => {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.id = `card-${i}`;
+                card.innerText = l.char;
+                card.onclick = () => playSingle(i);
+
+                const ipa = document.createElement('div');
+                ipa.className = 'ipa-label';
+                ipa.innerText = l.ipa;
+
+                slot.appendChild(card);
+                slot.appendChild(ipa);
+                track.appendChild(slot);
+            });
+
+            document.getElementById('resEmoji').innerText = data.emoji;
+            document.getElementById('resWord').innerText = `${data.word} (${data.meaning})`;
+            renderShelf();
+        }
+
+        function selectWord(idx) {
+            if (isPlaying) return;
+            currentIndex = idx;
+            renderStage();
+        }
+
+        async function playSingle(idx) {
+            if (isPlaying) return;
+            const letter = PHONICS_WORDS[currentIndex].letters[idx];
+            const card = document.getElementById(`card-${idx}`);
+            card.classList.add('active');
+            await speakPhonicsSound(letter);
+            card.classList.remove('active');
+        }
+
+        // 步骤 1：拆解每个音素
+        async function playLetterByLetter() {
+            if (isPlaying) return;
+            isPlaying = true;
+            resetState();
+
+            const letters = PHONICS_WORDS[currentIndex].letters;
+            for (let i = 0; i < letters.length; i++) {
+                const card = document.getElementById(`card-${i}`);
+                card.classList.add('active');
+                await speakPhonicsSound(letters[i]);
+                await new Promise(r => setTimeout(r, 160));
+                card.classList.remove('active');
+                await new Promise(r => setTimeout(r, 120));
+            }
+            isPlaying = false;
+        }
+
+        // 步骤 2：直接聚拢并朗读最终标准单词
+        async function mergeAndReadWord() {
+            if (isPlaying) return;
+            isPlaying = true;
+            resetState();
+
+            const data = PHONICS_WORDS[currentIndex];
+            const stage = document.getElementById('stage');
+            const resPanel = document.getElementById('resultPanel');
+
+            // 1. 卡片无缝聚拢
+            stage.classList.add('merged');
+            await new Promise(r => setTimeout(r, 380));
+
+            // 2. 清脆标准念出完整单词
+            await speakWord(data.word);
+
+            // 3. 展现最终结果图示
+            resPanel.classList.add('show');
+
+            isPlaying = false;
+        }
+
+        function resetState() {
+            document.getElementById('stage').classList.remove('merged');
+            document.getElementById('resultPanel').classList.remove('show');
+        }
+
+        window.onload = () => {
+            initBestVoice();
+            renderStage();
+        };
+    </script>
+</body>
+</html>
