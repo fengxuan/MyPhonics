@@ -1,0 +1,452 @@
+// Later phonics: spelling patterns, syllables, endings, and tricky words.
+
+Object.assign(SOUNDS, {
+  ff: { g: "ff", ipa: "/f/", kind: "team", hint: "一个短元音后面，f 常常写成 ff。像 off。", keyword: "off", emoji: "🔌", zh: "关掉", file: "f.mp3" },
+  ll: { g: "ll", ipa: "/l/", kind: "team", hint: "一个短元音后面，l 常常写成 ll。像 bell。", keyword: "bell", emoji: "🔔", zh: "铃", file: "l.mp3" },
+  ss: { g: "ss", ipa: "/s/", kind: "team", hint: "一个短元音后面，s 常常写成 ss。像 miss。", keyword: "miss", emoji: "🎯", zh: "没打中", file: "s.mp3" },
+  zz: { g: "zz", ipa: "/z/", kind: "team", hint: "一个短元音后面，z 常常写成 zz。像 buzz。", keyword: "buzz", emoji: "🐝", zh: "嗡嗡声", file: "z.mp3" },
+  bl: { g: "bl", ipa: "/bl/", kind: "blend", hint: "b 和 l 连读，中间不加“呃”。", keyword: "black", emoji: "🖤", zh: "黑色", sequence: ["b", "l"] },
+  br: { g: "br", ipa: "/br/", kind: "blend", hint: "b 和 r 连读，中间不加“呃”。", keyword: "brick", emoji: "🧱", zh: "砖", sequence: ["b", "r"] },
+  cr: { g: "cr", ipa: "/kr/", kind: "blend", hint: "c 读 /k/，马上接 /r/。", keyword: "crab", emoji: "🦀", zh: "螃蟹", sequence: ["k", "r"] },
+  gl: { g: "gl", ipa: "/gl/", kind: "blend", hint: "g 和 l 连读。", keyword: "glad", emoji: "😊", zh: "高兴", sequence: ["g", "l"] },
+  sk: { g: "sk", ipa: "/sk/", kind: "blend", hint: "s 和 k 连读。", keyword: "skin", emoji: "🖐️", zh: "皮肤", sequence: ["s", "k"] },
+  sl: { g: "sl", ipa: "/sl/", kind: "blend", hint: "s 和 l 连读。", keyword: "slip", emoji: "🧊", zh: "滑", sequence: ["s", "l"] },
+  sm: { g: "sm", ipa: "/sm/", kind: "blend", hint: "s 和 m 连读。", keyword: "smell", emoji: "👃", zh: "气味", sequence: ["s", "m"] },
+  sp: { g: "sp", ipa: "/sp/", kind: "blend", hint: "s 和 p 连读。", keyword: "spot", emoji: "🔵", zh: "斑点", sequence: ["s", "p"] },
+  tw: { g: "tw", ipa: "/tw/", kind: "blend", hint: "t 和 w 连读。", keyword: "twin", emoji: "👯", zh: "双胞胎", sequence: ["t", "w"] },
+  str: { g: "str", ipa: "/str/", kind: "blend", hint: "三个辅音 s、t、r 连在一起读。", keyword: "strip", emoji: "🎀", zh: "一条", sequence: ["s", "t", "r"] },
+  nd: { g: "nd", ipa: "/nd/", kind: "blend", hint: "词尾 n 和 d 都要读。像 and。", keyword: "and", emoji: "➕", zh: "和", sequence: ["n", "d"] },
+  nk: { g: "nk", ipa: "/nk/", kind: "blend", hint: "词尾 n 和 k 都要读。像 ink。", keyword: "ink", emoji: "🖊️", zh: "墨水", sequence: ["n", "k"] },
+  mp: { g: "mp", ipa: "/mp/", kind: "blend", hint: "词尾 m 和 p 都要读。像 jump。", keyword: "jump", emoji: "⬆️", zh: "跳", sequence: ["m", "p"] },
+  lk: { g: "lk", ipa: "/lk/", kind: "blend", hint: "词尾 l 和 k 都要读。像 milk。", keyword: "milk", emoji: "🥛", zh: "牛奶", sequence: ["l", "k"] },
+  wh: { g: "wh", ipa: "/w/", kind: "team", hint: "wh 常常读 /w/，和 w 一样。像 when。", keyword: "when", emoji: "🕐", zh: "什么时候", file: "w.mp3" },
+  ph: { g: "ph", ipa: "/f/", kind: "team", hint: "ph 读 /f/。像 phone。", keyword: "phone", emoji: "📱", zh: "电话", file: "f.mp3" },
+  tch: { g: "tch", ipa: "/tʃ/", kind: "team", hint: "短元音后面用 tch，读 /tʃ/。像 catch。", keyword: "catch", emoji: "🤲", zh: "抓住", file: "ch.mp3" },
+  dge: { g: "dge", ipa: "/dʒ/", kind: "team", hint: "短元音后面用 dge，读 /dʒ/。像 badge。", keyword: "badge", emoji: "📛", zh: "徽章", file: "j.mp3" },
+  kn: { g: "kn", ipa: "/n/", kind: "team", hint: "k 不发音，kn 只读 /n/。像 knee。", keyword: "knee", emoji: "🦵", zh: "膝盖", file: "n.mp3" },
+  wr: { g: "wr", ipa: "/r/", kind: "team", hint: "w 不发音，wr 只读 /r/。像 write。", keyword: "write", emoji: "✏️", zh: "写", file: "r.mp3" },
+  mb: { g: "mb", ipa: "/m/", kind: "team", hint: "词尾的 b 不发音，mb 只读 /m/。像 lamb。", keyword: "lamb", emoji: "🐑", zh: "小羊", file: "m.mp3" },
+  aw: { g: "aw", ipa: "/ɔː/", kind: "team", hint: "aw 读 /ɔː/，和 or 是同一个音。像 saw。", keyword: "saw", emoji: "🪚", zh: "锯子", file: "or.mp3" },
+  au: { g: "au", ipa: "/ɔː/", kind: "team", hint: "au 也读 /ɔː/。像 haul。", keyword: "haul", emoji: "🚛", zh: "拉", file: "or.mp3" },
+  ew: { g: "ew", ipa: "/juː/", kind: "team", hint: "ew 常常读 /juː/。像 new、few。", keyword: "new", emoji: "🆕", zh: "新的", sequence: ["y", "oo"] },
+  ue: { g: "ue", ipa: "/uː/", kind: "team", hint: "ue 常常读 /uː/。像 blue。", keyword: "blue", emoji: "🔵", zh: "蓝色", file: "oo.mp3" },
+  air: { g: "air", ipa: "/eə/", kind: "team", hint: "air、are 读 /eə/。像 hair、care。", keyword: "hair", emoji: "💇", zh: "头发", file: "air.mp3" },
+  ear: { g: "ear", ipa: "/ɪə/", kind: "team", hint: "ear、eer 常常读 /ɪə/。像 ear、deer。bear 是例外。", keyword: "ear", emoji: "👂", zh: "耳朵", file: "ear.mp3" },
+  ea_e: { g: "ea", ipa: "/e/", kind: "team", hint: "ea 有时读短 e，不读长音。像 head、bread。", keyword: "head", emoji: "🙂", zh: "头", file: "e.mp3", cue: "head" },
+  schwa: { g: "ə", ipa: "/ə/", kind: "vowel", hint: "不重读的元音又短又轻。词尾 le 里的 e 就是这个音。", keyword: "about", emoji: "💬", zh: "关于", file: "schwa.mp3" },
+  le: { g: "le", ipa: "/əl/", kind: "team", hint: "词尾 le 读 /əl/，e 很轻。像 apple、table。", keyword: "apple", emoji: "🍎", zh: "苹果", sequence: ["schwa", "l"] },
+  ed_t: { g: "ed", ipa: "/t/", kind: "team", hint: "清辅音后面，ed 读 /t/。像 jumped。", keyword: "jumped", emoji: "⬆️", zh: "跳了", file: "t.mp3", cue: "jumped" },
+  ed_d: { g: "ed", ipa: "/d/", kind: "team", hint: "浊辅音或元音后面，ed 读 /d/。像 played。", keyword: "played", emoji: "🎮", zh: "玩了", file: "d.mp3", cue: "played" },
+  ed_id: { g: "ed", ipa: "/ɪd/", kind: "team", hint: "t 或 d 后面，ed 要多一个音节，读 /ɪd/。像 wanted。", keyword: "wanted", emoji: "⭐", zh: "想要", sequence: ["i", "d"], cue: "wanted" },
+});
+
+function tricky(spelling, emoji, zh) {
+  const id = `tw_${spelling}`;
+  SOUNDS[id] = {
+    g: spelling,
+    ipa: "整体记",
+    kind: "magic",
+    hint: `“${spelling}”不能按每个字母硬读，看到它就整个词一起认。`,
+    keyword: spelling,
+    emoji,
+    zh,
+    word: spelling,
+  };
+  return id;
+}
+
+const TRICKY = [
+  ["the", "👉", "这个"],
+  ["a", "🅰️", "一个"],
+  ["to", "➡️", "向"],
+  ["do", "✅", "做"],
+  ["of", "🔗", "……的"],
+  ["was", "⏪", "是（过去）"],
+  ["said", "🗣️", "说了"],
+  ["you", "👉", "你"],
+  ["they", "👥", "他们"],
+  ["I", "🙋", "我"],
+  ["she", "👩", "她"],
+  ["have", "🤲", "有"],
+  ["has", "🤲", "有"],
+  ["are", "🟰", "是"],
+  ["come", "🚶", "来"],
+  ["some", "🍪", "一些"],
+  ["one", "1️⃣", "一"],
+  ["two", "2️⃣", "二"],
+  ["where", "📍", "哪里"],
+  ["what", "❓", "什么"],
+  ["who", "❓", "谁"],
+].map(([spelling, emoji, zh]) => ({ spelling, emoji, zh, id: tricky(spelling, emoji, zh) }));
+
+UNITS.push(
+  {
+    id: "u12",
+    n: 12,
+    title: "短元音后面双写",
+    goal: "一个短元音后面，f、l、s、z 常常写两遍，仍然只读一个音。",
+    slides: [{
+      title: "ff ll ss zz",
+      body: "off 的 ff 只读一个 /f/。bell、miss、buzz 也一样。ck 已经学过，也是这个道理。",
+      words: ["off", "bell", "miss", "buzz"],
+    }],
+    sounds: ["ff", "ll", "ss", "zz"],
+    words: [
+      word("off", "🔌", "关掉", ["o", ["ff", "ff"]]),
+      word("puff", "💨", "一吹", ["p", "u", ["ff", "ff"]]),
+      word("bell", "🔔", "铃", ["b", "e", ["ll", "ll"]]),
+      word("doll", "🪆", "玩偶", ["d", "o", ["ll", "ll"]]),
+      word("hill", "⛰️", "小山", ["h", "i", ["ll", "ll"]]),
+      word("miss", "🎯", "没打中", ["m", "i", ["ss", "ss"]]),
+      word("fuss", "😮", "大惊小怪", ["f", "u", ["ss", "ss"]]),
+      word("buzz", "🐝", "嗡嗡声", ["b", "u", ["zz", "zz"]]),
+    ],
+  },
+  {
+    id: "u13",
+    n: 13,
+    title: "更多词首连读",
+    goal: "bl、br、cr、gl、sk、sl、sm、sp、tw，还有三个辅音的 str。",
+    sounds: ["bl", "br", "cr", "gl", "sk", "sl", "sm", "sp", "tw", "str"],
+    words: [
+      word("black", "🖤", "黑色", ["b", "l", "a", ["ck", "k"]]),
+      word("brick", "🧱", "砖", ["b", "r", "i", ["ck", "k"]]),
+      word("crab", "🦀", "螃蟹", [["c", "k"], "r", "a", "b"]),
+      word("glad", "😊", "高兴", ["g", "l", "a", "d"]),
+      word("skin", "🖐️", "皮肤", ["s", "k", "i", "n"]),
+      word("slip", "🧊", "滑", ["s", "l", "i", "p"]),
+      word("smell", "👃", "气味", ["s", "m", "e", ["ll", "ll"]]),
+      word("spot", "🔵", "斑点", ["s", "p", "o", "t"]),
+      word("twin", "👯", "双胞胎", ["t", "w", "i", "n"]),
+      word("strip", "🎀", "一条", ["s", "t", "r", "i", "p"]),
+    ],
+  },
+  {
+    id: "u14",
+    n: 14,
+    title: "词尾也手拉手",
+    goal: "辅音连读不只在词首。and、jump、best、milk 的尾巴也要每个音都读。",
+    slides: [{
+      title: "先元音，再把尾巴连上",
+      body: "jump 是 j-u-m-p，不是 jum-puh。best 的 st、milk 的 lk 都贴在元音后面。",
+      words: ["jump", "best", "milk", "hand"],
+    }],
+    sounds: ["nd", "nk", "mp", "lk"],
+    words: [
+      word("and", "➕", "和", ["a", "n", "d"]),
+      word("hand", "✋", "手", ["h", "a", "n", "d"]),
+      word("sand", "🏖️", "沙子", ["s", "a", "n", "d"]),
+      word("end", "🏁", "结束", ["e", "n", "d"]),
+      word("ink", "🖊️", "墨水", ["i", "n", "k"]),
+      word("pink", "💗", "粉色", ["p", "i", "n", "k"]),
+      word("sink", "🚰", "水槽", ["s", "i", "n", "k"]),
+      word("tent", "⛺", "帐篷", ["t", "e", "n", "t"]),
+      word("went", "🚶", "去了", ["w", "e", "n", "t"]),
+      word("jump", "⬆️", "跳", ["j", "u", "m", "p"]),
+      word("bump", "💥", "碰撞", ["b", "u", "m", "p"]),
+      word("best", "🏆", "最好", ["b", "e", "s", "t"]),
+      word("nest", "🪺", "鸟巢", ["n", "e", "s", "t"]),
+      word("milk", "🥛", "牛奶", ["m", "i", "l", "k"]),
+      word("belt", "👖", "腰带", ["b", "e", "l", "t"]),
+      word("left", "👈", "左边", ["l", "e", "f", "t"]),
+      word("help", "🤝", "帮助", ["h", "e", "l", "p"]),
+      word("gift", "🎁", "礼物", ["g", "i", "f", "t"]),
+      word("desk", "🪑", "书桌", ["d", "e", "s", "k"]),
+      word("ask", "🙋", "问", ["a", "s", "k"]),
+    ],
+  },
+  {
+    id: "u15",
+    n: 15,
+    title: "wh、ph、tch、dge",
+    goal: "这些字母组有固定读音。短元音后面用 tch 和 dge。",
+    sounds: ["wh", "ph", "tch", "dge"],
+    words: [
+      word("when", "🕐", "什么时候", [["wh", "wh"], "e", "n"]),
+      word("whip", "🪢", "鞭子", [["wh", "wh"], "i", "p"]),
+      word("phone", "📱", "电话", [["ph", "ph"], ["o", "oh"], "n", ["e", "silent"]]),
+      word("photo", "📷", "照片", [["ph", "ph"], ["o", "oh"], "t", ["o", "oh"]]),
+      word("graph", "📈", "图表", ["g", "r", "a", ["ph", "ph"]]),
+      word("catch", "🤲", "抓住", [["c", "k"], "a", ["tch", "tch"]]),
+      word("match", "⚽", "比赛", ["m", "a", ["tch", "tch"]]),
+      word("fetch", "🐕", "取来", ["f", "e", ["tch", "tch"]]),
+      word("patch", "🩹", "补丁", ["p", "a", ["tch", "tch"]]),
+      word("badge", "📛", "徽章", ["b", "a", ["dge", "dge"]]),
+      word("bridge", "🌉", "桥", ["b", "r", "i", ["dge", "dge"]]),
+      word("edge", "📐", "边缘", ["e", ["dge", "dge"]]),
+    ],
+  },
+  {
+    id: "u16",
+    n: 16,
+    title: "有字母不发音",
+    goal: "kn 里的 k、wr 里的 w、词尾 mb 里的 b，写在纸上，嘴里不读。",
+    sounds: ["kn", "wr", "mb"],
+    words: [
+      word("knee", "🦵", "膝盖", [["kn", "kn"], ["ee", "ee"]]),
+      word("knock", "🚪", "敲", [["kn", "kn"], "o", ["ck", "k"]]),
+      word("know", "💡", "知道", [["kn", "kn"], ["ow", "oh"]]),
+      word("knife", "🔪", "刀", [["kn", "kn"], ["i", "igh"], "f", ["e", "silent"]]),
+      word("write", "✏️", "写", [["wr", "wr"], ["i", "igh"], "t", ["e", "silent"]]),
+      word("wrist", "⌚", "手腕", [["wr", "wr"], "i", "s", "t"]),
+      word("wrap", "🎁", "包裹", [["wr", "wr"], "a", "p"]),
+      word("lamb", "🐑", "小羊", ["l", "a", ["mb", "mb"]]),
+      word("comb", "💇", "梳子", [["c", "k"], ["o", "oh"], ["mb", "mb"]]),
+      word("thumb", "👍", "拇指", [["th", "th"], "u", ["mb", "mb"]]),
+    ],
+  },
+  {
+    id: "u17",
+    n: 17,
+    title: "aw、au、ew、ue",
+    goal: "aw 和 au 读 /ɔː/。ew 常读 /juː/，ue 常读 /uː/。",
+    sounds: ["aw", "au", "ew", "ue"],
+    words: [
+      word("saw", "🪚", "锯子", ["s", ["aw", "aw"]]),
+      word("draw", "✏️", "画", ["d", "r", ["aw", "aw"]]),
+      word("paw", "🐾", "爪子", ["p", ["aw", "aw"]]),
+      word("jaw", "😮", "下巴", ["j", ["aw", "aw"]]),
+      word("haul", "🚛", "拉", ["h", ["au", "au"], "l"]),
+      word("new", "🆕", "新的", ["n", ["ew", "ew"]]),
+      word("few", "🤏", "很少", ["f", ["ew", "ew"]]),
+      word("blue", "🔵", "蓝色", ["b", "l", ["ue", "ue"]]),
+      word("glue", "🧴", "胶水", ["g", "l", ["ue", "ue"]]),
+      word("clue", "🔎", "线索", [["c", "k"], "l", ["ue", "ue"]]),
+    ],
+  },
+  {
+    id: "u18",
+    n: 18,
+    title: "air、ear，还有短的 ea",
+    goal: "air 读 /eə/，ear 常读 /ɪə/。ea 有时改读短 e。",
+    sounds: ["air", "ear", "ea_e"],
+    practice: [
+      { card: "air", sound: "air" },
+      { card: "are", sound: "air", cue: "care" },
+      { card: "ear", sound: "ear", cue: "hear" },
+      { card: "ea", sound: "ea_e", cue: "head" },
+    ],
+    words: [
+      word("hair", "💇", "头发", ["h", ["air", "air"]]),
+      word("pair", "👫", "一对", ["p", ["air", "air"]]),
+      word("chair", "🪑", "椅子", [["ch", "ch"], ["air", "air"]]),
+      word("care", "💗", "关心", [["c", "k"], ["are", "air"]]),
+      word("ear", "👂", "耳朵", [["ear", "ear"]]),
+      word("hear", "👂", "听见", ["h", ["ear", "ear"]]),
+      word("near", "📍", "附近", ["n", ["ear", "ear"]]),
+      word("deer", "🦌", "鹿", ["d", ["eer", "ear"]]),
+      word("head", "🙂", "头", ["h", ["ea", "ea_e"], "d"]),
+      word("bread", "🍞", "面包", ["b", "r", ["ea", "ea_e"], "d"]),
+      word("dead", "🍂", "枯的", ["d", ["ea", "ea_e"], "d"]),
+      word("pie", "🥧", "馅饼", ["p", ["ie", "igh"]]),
+      word("tie", "👔", "领带", ["t", ["ie", "igh"]]),
+      word("field", "🌾", "田地", ["f", ["ie", "ee"], "l", "d"]),
+    ],
+  },
+  {
+    id: "u19",
+    n: 19,
+    title: "两个音节",
+    goal: "开音节的元音读字母名。词尾 le 读 /əl/。两个闭音节就各读一个短元音。",
+    slides: [
+      {
+        title: "开音节",
+        body: "me、go、hi 只有一个元音，而且它在音节末尾，所以读字母名。",
+        words: ["me", "go", "hi"],
+      },
+      {
+        title: "词尾 le",
+        body: "apple 分成 ap-ple。table 的 a 是开音节，读 /eɪ/，le 读 /əl/。",
+        words: ["apple", "table", "little"],
+      },
+    ],
+    sounds: ["schwa", "le"],
+    words: [
+      word("me", "🙋", "我", ["m", ["e", "ee"]]),
+      word("we", "👥", "我们", ["w", ["e", "ee"]]),
+      word("he", "👨", "他", ["h", ["e", "ee"]]),
+      word("go", "🚶", "去", ["g", ["o", "oh"]]),
+      word("no", "🚫", "不", ["n", ["o", "oh"]]),
+      word("hi", "👋", "你好", ["h", ["i", "igh"]]),
+      word("rabbit", "🐰", "兔子", ["r", "a", ["bb", "b"], "i", "t"]),
+      word("sunset", "🌅", "日落", ["s", "u", "n", "s", "e", "t"]),
+      word("picnic", "🧺", "野餐", ["p", "i", ["c", "k"], "n", "i", ["c", "k"]]),
+      word("kitten", "🐱", "小猫", ["k", "i", ["tt", "t"], "e", "n"]),
+      word("apple", "🍎", "苹果", ["a", ["pp", "p"], ["le", "le"]]),
+      word("table", "🪵", "桌子", ["t", ["a", "ay"], "b", ["le", "le"]]),
+      word("little", "🤏", "小的", ["l", "i", ["tt", "t"], ["le", "le"]]),
+      word("uncle", "👨", "叔叔", ["u", "n", ["c", "k"], ["le", "le"]]),
+    ],
+  },
+  {
+    id: "u20",
+    n: 20,
+    title: "词尾 s 和 ed",
+    goal: "s 可能读 /s/ 或 /z/。ed 可能读 /t/、/d/ 或 /ɪd/。",
+    slides: [{
+      title: "听尾巴",
+      body: "cats 的 s 是轻音 /s/。dogs 的 s 是浊音 /z/。boxes 多一个音节。jumped 的 ed 读 /t/，played 读 /d/，wanted 读 /ɪd/。",
+      words: ["cats", "dogs", "boxes", "jumped", "played", "wanted"],
+    }],
+    sounds: ["ed_t", "ed_d", "ed_id"],
+    words: [
+      word("cats", "🐱", "猫（复数）", [["c", "k"], "a", "t", "s"]),
+      word("dogs", "🐶", "狗（复数）", ["d", "o", "g", ["s", "z"]]),
+      word("boxes", "📦", "盒子（复数）", ["b", "o", "x", ["e", "i"], ["s", "z"]]),
+      word("jumped", "⬆️", "跳了", ["j", "u", "m", "p", ["ed", "ed_t"]]),
+      word("played", "🎮", "玩了", ["p", "l", ["ay", "ay"], ["ed", "ed_d"]]),
+      word("wanted", "⭐", "想要", ["w", "o", "n", "t", ["ed", "ed_id"]]),
+    ],
+  },
+  {
+    id: "u21",
+    n: 21,
+    title: "不能硬拼的词",
+    goal: "这些高频词里有不合规律的地方。看到它们，整个词一起认。",
+    slides: [{
+      title: "先认整词",
+      body: "the、was、said、come 不能靠逐个字母读准。读句子时会反复见到它们，要一眼认出来。",
+      words: ["the", "was", "said", "you", "they"],
+    }],
+    sounds: TRICKY.map((item) => item.id),
+    words: TRICKY.map((item) => word(item.spelling, item.emoji, item.zh, [[item.spelling, item.id]])),
+  },
+  {
+    id: "u22",
+    n: 22,
+    title: "把词读成句子",
+    goal: "用学过的拼读词和整词，把一句话读出来。",
+    slides: [{
+      title: "从左到右读",
+      body: "先认每个词。能拼的就拼，the、she、they 这种整词直接认。再把它们连成一句。",
+      words: ["cat", "the", "see"],
+    }],
+    sounds: [],
+    words: [
+      word("on", "📍", "在……上", ["o", "n"]),
+      word("in", "📥", "在……里", ["i", "n"]),
+      word("is", "🟰", "是", ["i", ["s", "z"]]),
+      word("can", "💪", "能", [["c", "k"], "a", "n"]),
+      word("see", "👀", "看见", ["s", ["ee", "ee"]]),
+      word("like", "👍", "喜欢", ["l", ["i", "igh"], "k", ["e", "silent"]]),
+      word("mat", "🧶", "垫子", ["m", "a", "t"]),
+    ],
+    sentences: [
+      { zh: "猫坐在垫子上。", words: ["The", "cat", "sat", "on", "a", "mat"] },
+      { zh: "狗会跑。", words: ["A", "dog", "can", "run"] },
+      { zh: "她有一顶红帽子。", words: ["She", "has", "a", "red", "hat"] },
+      { zh: "我能看见月亮。", words: ["I", "can", "see", "the", "moon"] },
+      { zh: "我们去了公园。", words: ["We", "went", "to", "the", "park"] },
+      { zh: "他们喜欢玩。", words: ["They", "like", "to", "play"] },
+      { zh: "鱼在海里。", words: ["The", "fish", "is", "in", "the", "sea"] },
+      { zh: "他会跳。", words: ["He", "can", "jump"] },
+    ],
+  }
+);
+
+RULES.push(
+  {
+    id: "floss",
+    title: "短元音后面常双写",
+    body: "一个短元音后面，f、l、s、z 常常写两遍，只读一个音：off、bell、miss、buzz。ck 也只读一个 /k/。",
+    listens: [
+      { label: "off", word: "off" },
+      { label: "bell", word: "bell" },
+      { label: "miss", word: "miss" },
+      { label: "buzz", word: "buzz" },
+    ],
+  },
+  {
+    id: "final-blends",
+    title: "词尾的辅音都要读",
+    body: "hand、jump、best、milk 的词尾有两个或三个辅音。一个都不要漏，中间也不要加“呃”。",
+    listens: [
+      { label: "hand", word: "hand" },
+      { label: "jump", word: "jump" },
+      { label: "best", word: "best" },
+      { label: "milk", word: "milk" },
+    ],
+  },
+  {
+    id: "silent-letters",
+    title: "有的字母不读",
+    body: "kn 读 /n/，wr 读 /r/，词尾 mb 读 /m/。k、w、b 写出来，嘴巴不发。",
+    listens: [
+      { label: "knee", word: "knee" },
+      { label: "write", word: "write" },
+      { label: "lamb", word: "lamb" },
+    ],
+  },
+  {
+    id: "more-vowels",
+    title: "还有这些元音写法",
+    body: "aw/au 读 /ɔː/。ew 常读 /juː/，ue 常读 /uː/。air 读 /eə/，ear 常读 /ɪə/。ea 有时读短 e，像 head。",
+    listens: [
+      { label: "saw", word: "saw" },
+      { label: "new", word: "new" },
+      { label: "blue", word: "blue" },
+      { label: "hair", word: "hair" },
+      { label: "ear", word: "ear" },
+      { label: "head", word: "head" },
+    ],
+  },
+  {
+    id: "syllables",
+    title: "两个音节怎么分",
+    body: "开音节的元音读字母名：me、go、hi。两个闭音节各读短元音：rab-bit。词尾 le 读 /əl/：ap-ple、ta-ble。",
+    listens: [
+      { label: "me", word: "me" },
+      { label: "go", word: "go" },
+      { label: "rabbit", word: "rabbit" },
+      { label: "apple", word: "apple" },
+      { label: "table", word: "table" },
+    ],
+  },
+  {
+    id: "endings",
+    title: "s 和 ed 的三种读法",
+    body: "复数 s：cats 读 /s/，dogs 读 /z/，boxes 读 /ɪz/。过去式 ed：jumped 读 /t/，played 读 /d/，wanted 读 /ɪd/。",
+    listens: [
+      { label: "cats", word: "cats" },
+      { label: "dogs", word: "dogs" },
+      { label: "boxes", word: "boxes" },
+      { label: "jumped", word: "jumped" },
+      { label: "played", word: "played" },
+      { label: "wanted", word: "wanted" },
+    ],
+  },
+  {
+    id: "tricky",
+    title: "高频词要整词认",
+    body: "the、to、was、said、you、they、come、some、one、two 不能完全靠拼读。先把规律词拼会，这些词单独记住。",
+    listens: [
+      { label: "the", word: "the" },
+      { label: "was", word: "said" },
+      { label: "you", word: "you" },
+      { label: "they", word: "they" },
+      { label: "come", word: "come" },
+    ],
+  }
+);
+
+// The listens above accidentally pair was with said. Fix that entry.
+RULES[RULES.length - 1].listens[1] = { label: "was", word: "was" };
+
+if (typeof window === "undefined") {
+  const missing = [];
+  for (const unit of UNITS) {
+    for (const id of unit.sounds || []) {
+      if (!SOUNDS[id]) missing.push(`${unit.id} sound ${id}`);
+    }
+    for (const entry of unit.words || []) {
+      for (const piece of entry.parts) {
+        if (!SOUNDS[piece.s]) missing.push(`${unit.id} ${entry.w} ${piece.s}`);
+      }
+    }
+  }
+  if (missing.length) {
+    console.error(missing.join("\n"));
+    process.exit(1);
+  }
+  console.log(`more ok: ${UNITS.length} units`);
+}

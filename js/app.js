@@ -5,6 +5,7 @@ const state = {
   unitId: "u1",
   step: 0,
   wordIndex: 0,
+  sentenceIndex: -1,
   busy: false,
   quiz: null,
   reflex: null,
@@ -104,7 +105,7 @@ function stopAudio() {
   if (finish) finish();
 }
 
-const AUDIO_VERSION = "5";
+const AUDIO_VERSION = "6";
 
 function playFile(path) {
   stopAudio();
@@ -130,6 +131,7 @@ async function playSoundId(id) {
   const job = audioJob;
   const sound = SOUNDS[id];
   if (!sound || sound.silent) return;
+  if (sound.word) return playWord(sound.word);
   if (sound.sequence) {
     for (const piece of sound.sequence) {
       if (audioJob !== job) return;
@@ -142,8 +144,12 @@ async function playSoundId(id) {
   await playFile(`audio/sounds/${sound.file}`);
 }
 
+function audioName(word) {
+  return word === "I" ? "I" : word.toLowerCase();
+}
+
 function playWord(word) {
-  return playFile(`audio/words/${word}.mp3`);
+  return playFile(`audio/words/${audioName(word)}.mp3`);
 }
 
 function clearTimer() {
@@ -204,6 +210,7 @@ function render() {
     learn: renderLearn,
     blend: renderBlend,
     quiz: renderQuiz,
+    sentences: renderSentences,
     reflex: renderReflex,
     rules: renderRules,
     rule: renderRule,
@@ -272,6 +279,7 @@ function renderUnit() {
         <button data-act="open-blend">拼读工坊<span>拆开再合成</span></button>
         <button data-act="open-quiz">过关测验<span>${record.quiz || 0} 分</span></button>
         <button data-act="reflex-setup" data-scope="${unit.id}">闪电反应<span>看见就读</span></button>
+        ${unit.sentences ? `<button data-act="open-sentences">读句子<span>把词连成句</span></button>` : ""}
       </div>
       <p class="status">认音 ${record.learn ? "已学" : "还没学完"} · 拼读 ${record.blend ? "已练" : "还没练"} · ${starred(unit.id) ? "已过关 ★" : "80 分过关"}</p>
     </section>
@@ -336,6 +344,42 @@ function slideLesson(slide) {
     <div class="pairs">${pairs}</div>
     <div class="controls" style="justify-content:center">${soundButton}${listens}</div>
   `;
+}
+
+function renderSentences() {
+  const unit = unitById(state.unitId);
+  const sentences = unit.sentences || [];
+  const index = Math.max(0, Math.min(state.step, sentences.length - 1));
+  const sentence = sentences[index];
+  const words = sentence.words.map((entry, wordIndex) => `
+    <button class="${state.sentenceIndex === wordIndex ? "on" : ""}" data-act="play-word" data-word="${esc(audioName(entry))}">${esc(entry)}</button>`).join("");
+  return `
+    <button class="back" data-act="open-unit">← 第 ${unit.n} 课</button>
+    <article class="panel">
+      <p class="progress-label">${index + 1} / ${sentences.length}</p>
+      <h1>读句子</h1>
+      <p class="hint">${esc(sentence.zh)}</p>
+      <p class="sentence">${words}</p>
+      <div class="hero-actions">
+        <button class="btn-sound" data-act="play-sentence">逐词听</button>
+        <button class="btn light" data-act="sentence-prev" ${index === 0 ? "disabled" : ""}>上一句</button>
+        <button class="btn light" data-act="sentence-next" ${index === sentences.length - 1 ? "disabled" : ""}>下一句</button>
+      </div>
+    </article>
+  `;
+}
+
+async function playSentence() {
+  const job = audioJob;
+  const sentence = unitById(state.unitId).sentences[state.step];
+  for (let index = 0; index < sentence.words.length; index += 1) {
+    if (audioJob !== job || state.view !== "sentences") return;
+    state.sentenceIndex = index;
+    render();
+    await playWord(audioName(sentence.words[index]));
+    await wait(140);
+  }
+  if (audioJob === job) state.sentenceIndex = -1;
 }
 
 function renderBlend() {
@@ -794,6 +838,23 @@ document.addEventListener("click", (event) => {
     return go("blend");
   }
   if (act === "open-quiz") return startQuiz();
+  if (act === "open-sentences") {
+    state.step = 0;
+    state.sentenceIndex = -1;
+    return go("sentences");
+  }
+  if (act === "sentence-prev") {
+    state.step = Math.max(0, state.step - 1);
+    state.sentenceIndex = -1;
+    return go("sentences");
+  }
+  if (act === "sentence-next") {
+    const total = (unitById(state.unitId).sentences || []).length;
+    state.step = Math.min(total - 1, state.step + 1);
+    state.sentenceIndex = -1;
+    return go("sentences");
+  }
+  if (act === "play-sentence") return playSentence();
   if (act === "open-rule") {
     state.ruleId = target.dataset.id;
     return go("rule");

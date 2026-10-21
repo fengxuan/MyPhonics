@@ -302,6 +302,16 @@ h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.15; margin: 0 0 12px;
 .result b { display: block; font-size: 2rem; color: var(--green); letter-spacing: 0.04em; }
 .result small { color: var(--muted); font-weight: 700; }
 .res-emoji { font-size: 3rem; animation: bob 0.7s ease-in-out infinite alternate; }
+.sentence { font-size: 1.7rem; line-height: 2; }
+.sentence button {
+  border: 0;
+  background: transparent;
+  font-weight: 900;
+  border-bottom: 3px solid var(--line);
+  margin: 0 3px;
+  padding: 0 2px;
+}
+.sentence button.on { color: var(--coral); border-color: var(--coral); }
 .formula { min-height: 28px; color: var(--muted); font-weight: 800; opacity: 0; }
 .formula.show { opacity: 1; }
 .controls { justify-content: center; margin-top: 8px; }
